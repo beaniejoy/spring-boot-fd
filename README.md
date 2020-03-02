@@ -2,13 +2,11 @@
 
 Restaurant Reservation Service Project
 
-### Reference Documentation
-For further reference, please consider the following sections:
+### Project Initialization
+For initializing spring boot project, please consider the following spring.io document:
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/gradle-plugin/reference/html/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#using-boot-devtools)
+* [Spring Main Page](https://spring.io/)
+* [Spring Initializer](https://start.spring.io/)
 
 ### Guides
 The following guides illustrate how to use some features concretely:
