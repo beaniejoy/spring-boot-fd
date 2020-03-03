@@ -1,5 +1,6 @@
 package kr.co.joy.eatgo.interfaces;
 
+import kr.co.joy.eatgo.application.RestaurantService;
 import kr.co.joy.eatgo.domain.MenuItemRepository;
 import kr.co.joy.eatgo.domain.MenuItemRepositoryImpl;
 import kr.co.joy.eatgo.domain.RestaurantRepository;
@@ -23,6 +24,9 @@ class RestaurantControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @SpyBean
+    private RestaurantService restaurantService;
 
     @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
