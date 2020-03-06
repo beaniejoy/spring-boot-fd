@@ -5,14 +5,28 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Getter
+@Setter
 public class Restaurant {
-    @NonNull private Long id;
-    @NonNull private String name;
-    @NonNull private String address;
+    private Long id;
+    private String name;
+    private String address;
     private List<MenuItem> menuItems = new ArrayList<>();
+
+    public Restaurant() {
+
+    }
+
+    public Restaurant(@NonNull String name, @NonNull String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public Restaurant(Long id, @NonNull String name, @NonNull String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
 
     public String getInformation() {
         return name + " in " + address;
@@ -23,7 +37,7 @@ public class Restaurant {
     }
 
     public void setMenuItem(List<MenuItem> menuItems) {
-        for(MenuItem menuItem : menuItems){
+        for (MenuItem menuItem : menuItems) {
             addMenuItem(menuItem);
         }
     }
