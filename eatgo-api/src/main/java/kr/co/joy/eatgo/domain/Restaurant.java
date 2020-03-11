@@ -1,6 +1,6 @@
 package kr.co.joy.eatgo.domain;
 
-import lombok.*;
+import lombok.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 public class Restaurant {
     @Id
@@ -27,12 +26,12 @@ public class Restaurant {
 
     }
 
-    public Restaurant(@NonNull String name, @NonNull String address) {
+    public Restaurant(String name, String address) {
         this.name = name;
         this.address = address;
     }
 
-    public Restaurant(Long id, @NonNull String name, @NonNull String address) {
+    public Restaurant(Long id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -50,5 +49,10 @@ public class Restaurant {
         for (MenuItem menuItem : menuItems) {
             addMenuItem(menuItem);
         }
+    }
+
+    public void updateInformation(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 }
