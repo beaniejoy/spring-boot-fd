@@ -1,15 +1,20 @@
 package kr.co.joy.eatgo.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@RequiredArgsConstructor
+
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuItem {
     @Id
     @GeneratedValue
@@ -17,9 +22,5 @@ public class MenuItem {
 
     private Long restaurantId;
 
-    @NonNull private String name;
-
-    public String getName() {
-        return name;
-    }
+    private String name;
 }

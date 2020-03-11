@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
@@ -35,7 +36,12 @@ class RestaurantControllerTests {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L, "Joker House", "Seoul"));
+        restaurants.add(Restaurant.builder()
+                .id(1004L)
+                .name("Joker House")
+                .address("Seoul")
+                .build());
+
         given(restaurantService.getRestaurants()).willReturn(restaurants);
 
         mvc.perform(get("/restaurants"))
@@ -48,11 +54,24 @@ class RestaurantControllerTests {
 
     @Test
     public void detail() throws Exception {
-        Restaurant restaurant1 = new Restaurant(1004L, "Joy House", "Seoul");
-        restaurant1.addMenuItem(new MenuItem("Kimchi"));
-        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
+        Restaurant restaurant1 = Restaurant.builder()
+                .id(1004L)
+                .name("Joy House")
+                .address("Seoul")
+                .build();
 
-        Restaurant restaurant2 = new Restaurant(2020L, "Cyber Food", "Seoul");
+        MenuItem menuItem = MenuItem.builder()
+                .name("Kimchi")
+                .build();
+
+        restaurant1.setMenuItems(Arrays.asList(menuItem));
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
+        Restaurant restaurant2 = Restaurant.builder()
+                .id(2020L)
+                .name("Cyber Food")
+                .address("Seoul")
+                .build();
+
         given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
 
         mvc.perform(get("/restaurants/1004"))
@@ -77,14 +96,25 @@ class RestaurantControllerTests {
                 ));
     }
 
+    // 올바른 입력값을 넘긴 경우의 상황
     @Test
-    public void create() throws Exception {
+    public void createWithValidData() throws Exception {
+        given(restaurantService.addRestaurant(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            return Restaurant.builder()
+                    .id(1234L)
+                    .name(restaurant.getName())
+                    .address(restaurant.getAddress())
+                    .build();
+        });
+
         mvc.perform(
                 post("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"BeRyong\",\"address\":\"Busan\"}")
         )
                 .andExpect(status().isCreated())
+                .andExpect(header().string("location", "/restaurants/1234"))
                 .andExpect(content().string("{}"));
 
         verify(restaurantService).addRestaurant(any());
@@ -95,11 +125,11 @@ class RestaurantControllerTests {
 
         mvc.perform(
                 patch("/restaurants/1004")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}")
         )
                 .andExpect(status().isOk());
 
-        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar","Busan");
+        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
     }
 }
