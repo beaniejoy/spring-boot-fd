@@ -7,6 +7,7 @@ import kr.co.joy.eatgo.domain.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,9 +37,8 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-
+    @Transactional
     public Restaurant updateRestaurant(Long id, String name, String address) {
-        // TODO: update Restaurant...
         Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
         restaurant.updateInformation(name, address);
         return restaurant;
