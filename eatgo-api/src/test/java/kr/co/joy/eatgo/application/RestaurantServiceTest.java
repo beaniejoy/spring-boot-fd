@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -62,12 +63,19 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void getRestaurant() {
+    public void getRestaurantWithExisted() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
         assertEquals(restaurant.getId(), 1004);
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertEquals(menuItem.getName(), "Kimchi");
+    }
+
+    @Test
+    public void getRestaurantWithNotExisted() {
+        Exception exception = assertThrows(RestaurantNotFoundException.class, () -> {
+            restaurantService.getRestaurant(404L);
+        });
     }
 
     @Test

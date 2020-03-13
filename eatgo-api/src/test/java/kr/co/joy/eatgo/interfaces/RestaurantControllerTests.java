@@ -3,6 +3,7 @@ package kr.co.joy.eatgo.interfaces;
 import kr.co.joy.eatgo.application.RestaurantService;
 import kr.co.joy.eatgo.domain.MenuItem;
 import kr.co.joy.eatgo.domain.Restaurant;
+import kr.co.joy.eatgo.domain.RestaurantNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ class RestaurantControllerTests {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExisted() throws Exception {
         Restaurant restaurant1 = Restaurant.builder()
                 .id(1004L)
                 .name("Joy House")
@@ -66,6 +67,7 @@ class RestaurantControllerTests {
 
         restaurant1.setMenuItems(Arrays.asList(menuItem));
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
+
         Restaurant restaurant2 = Restaurant.builder()
                 .id(2020L)
                 .name("Cyber Food")
@@ -94,6 +96,15 @@ class RestaurantControllerTests {
                 .andExpect(content().string(
                         containsString("\"name\":\"Cyber Food\"")
                 ));
+    }
+
+    @Test
+    public void detailWithNotExisted() throws Exception {
+        given(restaurantService.getRestaurant(404L))
+                .willThrow(new RestaurantNotFoundException(404L));
+        mvc.perform(get("/restaurants/404"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{}"));
     }
 
     // 올바른 입력값을 넘긴 경우의 상황
