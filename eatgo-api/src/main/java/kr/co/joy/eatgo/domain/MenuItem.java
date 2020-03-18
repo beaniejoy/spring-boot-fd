@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -21,5 +22,9 @@ public class MenuItem {
     private Long restaurantId;
 
     private String name;
+
+    // DB에 넣지 않을 것임을 알리는 것
+    @Transient
+    private boolean destroy;
 
 }
