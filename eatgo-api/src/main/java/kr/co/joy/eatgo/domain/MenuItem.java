@@ -1,5 +1,6 @@
 package kr.co.joy.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ public class MenuItem {
 
     // DB에 넣지 않을 것임을 알리는 것
     @Transient
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private boolean destroy;
 
 }
