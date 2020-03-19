@@ -25,12 +25,7 @@ public class ReviewController {
             @Valid @RequestBody Review resource)
             throws URISyntaxException {
 
-        Review review = reviewService.addReview(
-                Review.builder()
-                        .name(resource.getName())
-                        .score(resource.getScore())
-                        .description(resource.getDescription())
-                        .build());
+        Review review = reviewService.addReview(resource);
 
         String url = "/restaurants/" + restaurantId + "/reviews/" + review.getId();
         return ResponseEntity.created(new URI(url)).body("{}");
