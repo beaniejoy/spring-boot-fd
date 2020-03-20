@@ -12,10 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class RestaurantService {
 
-    @Autowired
     private RestaurantRepository restaurantRepository;
-    @Autowired
     private MenuItemRepository menuItemRepository;
+    private ReviewRepository reviewRepository;
 
     public List<Restaurant> getRestaurants() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
@@ -28,6 +27,10 @@ public class RestaurantService {
 
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
+
+        List<Review> reviews = reviewRepository.findAllByRestaurantId(id);
+        restaurant.setReviews((reviews));
+
         return restaurant;
     }
 

@@ -20,6 +20,9 @@ public class Review {
     @Setter
     private Long id;
 
+    @Setter
+    private Long restaurantId;
+
     @NotEmpty
     private String name;
 

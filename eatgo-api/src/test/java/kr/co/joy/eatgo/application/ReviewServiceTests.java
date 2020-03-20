@@ -1,6 +1,5 @@
 package kr.co.joy.eatgo.application;
 
-import kr.co.joy.eatgo.domain.Restaurant;
 import kr.co.joy.eatgo.domain.Review;
 import kr.co.joy.eatgo.domain.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -41,9 +40,10 @@ class ReviewServiceTests {
                 .description("Mat-it-da")
                 .build();
 
-        Review saved = reviewService.addReview(review);
+        Review saved = reviewService.addReview(1004L, review);
 
         verify(reviewRepository).save(any());
+
         assertEquals(saved.getName(), "JOKER");
         assertEquals(saved.getScore(), 3);
         assertEquals(saved.getDescription(), "Mat-it-da");
