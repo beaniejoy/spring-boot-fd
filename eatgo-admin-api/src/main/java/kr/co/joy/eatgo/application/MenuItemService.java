@@ -15,6 +15,10 @@ public class MenuItemService {
     @Autowired
     private MenuItemRepository menuItemRepository;
 
+    public List<MenuItem> getMenuItems(Long restaurantId) {
+        return menuItemRepository.findAllByRestaurantId(restaurantId);
+    }
+
     public void bulkUpdate(Long restaurantId, List<MenuItem> menuItems) {
         // bulk update
         for (MenuItem menuItem : menuItems) {
@@ -24,7 +28,7 @@ public class MenuItemService {
 
     // insert, update, delete functions all included
     private void update(Long restaurantId, MenuItem menuItem) {
-        if(menuItem.isDestroy()){
+        if (menuItem.isDestroy()) {
             // delete
             menuItemRepository.deleteById(menuItem.getId());
             return;

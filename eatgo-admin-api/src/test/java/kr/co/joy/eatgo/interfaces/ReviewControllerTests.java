@@ -1,23 +1,17 @@
 package kr.co.joy.eatgo.interfaces;
 
 import kr.co.joy.eatgo.application.ReviewService;
-import kr.co.joy.eatgo.domain.Review;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -30,30 +24,13 @@ class ReviewControllerTests {
     @MockBean
     private ReviewService reviewService;
 
+    // admin에서는 Review 조회만 할 수 있도록
     @Test
-    public void createWithValidAttributes() throws Exception {
-        given(reviewService.addReview(eq(1L), any())).willReturn(
-                Review.builder().id(123L).build()
-        );
-
-        mvc.perform(post("/restaurants/1/reviews")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"JOKER\",\"score\":3,\"description\":\"mat-it-da\"}")
-        )
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location", "/restaurants/1/reviews/123"));
-
-        verify(reviewService).addReview(eq(1L), any());
+    public void list() throws Exception {
+        // 전체 리뷰를 관리하고자 /reviews로만 접근
+        mvc.perform(get("/reviews"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Cool!")));
     }
 
-    @Test
-    public void createWithInvalidAttributes() throws Exception {
-        mvc.perform(post("/restaurants/1/reviews")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"\",\"score\":3,\"description\":\"\"}")
-        )
-                .andExpect(status().isBadRequest());
-
-        verify(reviewService, never()).addReview(eq(1L), any());
-    }
 }

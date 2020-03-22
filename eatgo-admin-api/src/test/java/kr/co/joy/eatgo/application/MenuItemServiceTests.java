@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -25,6 +26,19 @@ class MenuItemServiceTests {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         menuItemService = new MenuItemService(menuItemRepository);
+    }
+
+    @Test
+    public void getMenuItems() {
+        List<MenuItem> mockMenuItems = new ArrayList<>();
+        mockMenuItems.add(MenuItem.builder().name("Kimchi").build());
+
+        given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(mockMenuItems);
+        List<MenuItem> menuItems = menuItemService.getMenuItems(1004L);
+
+        MenuItem menuItem = menuItems.get(0);
+
+        assertEquals(menuItem.getName(), "Kimchi");
     }
 
     @Test
