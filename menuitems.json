@@ -1,13 +1,8 @@
 [
   {
-    "id": 2,
-    "name": "Shin KimChi"
+    "name": "Egg"
   },
   {
-    "id": 3,
-    "destroy": true
-  },
-  {
-    "name": "New Menu"
+    "name": "Bread"
   }
 ]
