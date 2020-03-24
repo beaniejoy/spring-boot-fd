@@ -1,6 +1,8 @@
 package kr.co.joy.eatgo.application;
 
-import kr.co.joy.eatgo.domain.*;
+import kr.co.joy.eatgo.domain.Restaurant;
+import kr.co.joy.eatgo.domain.RestaurantNotFoundException;
+import kr.co.joy.eatgo.domain.RestaurantRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 class RestaurantServiceTests {
 
