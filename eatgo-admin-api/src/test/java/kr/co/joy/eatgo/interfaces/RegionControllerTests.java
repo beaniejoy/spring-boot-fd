@@ -1,7 +1,7 @@
 package kr.co.joy.eatgo.interfaces;
 
-import kr.co.joy.eatgo.application.ReviewService;
-import kr.co.joy.eatgo.domain.Review;
+import kr.co.joy.eatgo.application.RegionService;
+import kr.co.joy.eatgo.domain.Region;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +16,39 @@ import java.util.List;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ReviewController.class)
-class ReviewControllerTests {
+@WebMvcTest(RegionController.class)
+class RegionControllerTests {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private ReviewService reviewService;
+    private RegionService regionService;
 
-    // admin에서는 Review 조회만 할 수 있도록
     @Test
     public void list() throws Exception {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(Review.builder().description("Cool!").build());
+        List<Region> regions = new ArrayList<>();
+        regions.add(Region.builder().name("Seoul").build());
 
-        given(reviewService.getReviews()).willReturn(reviews);
-        // 전체 리뷰를 관리하고자 /reviews로만 접근
-        mvc.perform(get("/reviews"))
+        given(regionService.getRegions()).willReturn(regions);
+
+        mvc.perform(get("/regions"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Cool!")));
+                .andExpect(content().string(containsString("Seoul")));
     }
 
+    @Test
+    public void create() throws Exception {
+
+        mvc.perform(post("/regions")
+                .content("{\"name\":\"Seoul\"}")
+        )
+                .andExpect(status().isCreated())
+                .andExpect(content().string("{}"));
+    }
 }
