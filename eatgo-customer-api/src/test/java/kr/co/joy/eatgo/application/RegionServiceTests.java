@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -38,19 +38,5 @@ class RegionServiceTests {
         List<Region> regions = regionService.getRegions();
         Region region = regions.get(0);
         assertEquals(region.getName(), "Seoul");
-    }
-
-    @Test
-    public void addRegion() {
-        given(regionRepository.save(any())).will(invocation -> {
-            Region region = invocation.getArgument(0);
-            region.setId(1004L);
-            return region;
-        });
-
-        Region region = regionService.addRegion("Seoul");
-        verify(regionRepository).save(any());
-        assertEquals(region.getName(), "Seoul");
-
     }
 }
