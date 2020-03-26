@@ -2,8 +2,6 @@ package kr.co.joy.eatgo.domain;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class RegionTests {
 
     @Test
