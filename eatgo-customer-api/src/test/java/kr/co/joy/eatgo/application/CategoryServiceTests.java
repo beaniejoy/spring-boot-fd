@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTests {
@@ -39,19 +37,6 @@ class CategoryServiceTests {
 
         List<Category> categories = categoryService.getCategories();
         Category category = categories.get(0);
-        assertEquals(category.getName(), "Korean Food");
-    }
-
-    @Test
-    public void addCategory() {
-        given(categoryRepository.save(any())).will(invocation -> {
-            Category category = invocation.getArgument(0);
-            category.setId(1004L);
-            return category;
-        });
-
-        Category category = categoryService.addCategory("Korean Food");
-        verify(categoryRepository).save(any());
         assertEquals(category.getName(), "Korean Food");
     }
 }
