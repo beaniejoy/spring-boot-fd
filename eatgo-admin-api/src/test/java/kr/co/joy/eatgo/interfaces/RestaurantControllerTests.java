@@ -37,6 +37,7 @@ class RestaurantControllerTests {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Joker House")
                 .address("Seoul")
                 .build());
@@ -55,6 +56,7 @@ class RestaurantControllerTests {
     public void detailWithExisted() throws Exception {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Joy House")
                 .address("Seoul")
                 .build();
@@ -87,6 +89,7 @@ class RestaurantControllerTests {
             Restaurant restaurant = invocation.getArgument(0);
             return Restaurant.builder()
                     .id(1234L)
+                    .categoryId(1L)
                     .name(restaurant.getName())
                     .address(restaurant.getAddress())
                     .build();
@@ -95,7 +98,7 @@ class RestaurantControllerTests {
         mvc.perform(
                 post("/restaurants")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"BeRyong\",\"address\":\"Busan\"}")
+                        .content("{\"categoryId\":1,\"name\":\"BeRyong\",\"address\":\"Busan\"}")
         )
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", "/restaurants/1234"))
@@ -120,7 +123,7 @@ class RestaurantControllerTests {
         mvc.perform(
                 patch("/restaurants/1004")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"JOKER Bar\", \"address\":\"Busan\"}")
+                        .content("{\"categoryId\":1, \"name\":\"JOKER Bar\", \"address\":\"Busan\"}")
         )
                 .andExpect(status().isOk());
 
@@ -133,7 +136,7 @@ class RestaurantControllerTests {
         mvc.perform(
                 patch("/restaurants/1004")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"\", \"address\":\"\"}")
+                        .content("{\"categoryId\":,\"name\":\"\", \"address\":\"\"}")
         )
                 .andExpect(status().isBadRequest());
 

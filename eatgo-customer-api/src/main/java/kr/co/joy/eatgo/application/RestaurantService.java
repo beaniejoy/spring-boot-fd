@@ -16,7 +16,8 @@ public class RestaurantService {
     private ReviewRepository reviewRepository;
 
     public List<Restaurant> getRestaurants(String region, long categoryId) {
-        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContaining(region);
+        List<Restaurant> restaurants = restaurantRepository.findAllByAddressContainingAndCategoryId(
+                region, categoryId);
         return restaurants;
     }
 
