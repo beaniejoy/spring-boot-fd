@@ -50,7 +50,8 @@ class RestaurantServiceTests {
                 .build();
 
         restaurants.add(restaurant);
-        given(restaurantRepository.findAll()).willReturn(restaurants);
+        given(restaurantRepository.findAllByAddressContaining("Seoul"))
+                .willReturn(restaurants);
 
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
     }
@@ -77,7 +78,8 @@ class RestaurantServiceTests {
 
     @Test
     public void getRestaurants() {
-        List<Restaurant> restaurants = restaurantService.getRestaurants();
+        String region = "Seoul";
+        List<Restaurant> restaurants = restaurantService.getRestaurants(region, );
         Restaurant restaurant = restaurants.get(0);
         assertEquals(restaurant.getId(), 1004);
     }
