@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewService {
 
-    @Autowired
     private ReviewRepository reviewRepository;
 
     public List<Review> getReviews() {

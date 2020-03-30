@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class MenuItemService {
 
-    @Autowired
     private MenuItemRepository menuItemRepository;
 
     public List<MenuItem> getMenuItems(Long restaurantId) {
