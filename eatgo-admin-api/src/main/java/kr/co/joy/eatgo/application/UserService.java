@@ -1,6 +1,7 @@
 package kr.co.joy.eatgo.application;
 
 import kr.co.joy.eatgo.domain.User;
+import kr.co.joy.eatgo.domain.UserNotFoundException;
 import kr.co.joy.eatgo.domain.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,21 @@ public class UserService {
     }
 
     public User updateUser(Long id, String email, String name, Long level) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         user.setEmail(email);
         user.setName(name);
         user.setLevel(level);
+
+        return user;
+    }
+
+    public User deactivateUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        user.deactivate();
 
         return user;
     }

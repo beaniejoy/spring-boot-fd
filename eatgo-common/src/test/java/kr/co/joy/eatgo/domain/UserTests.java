@@ -16,6 +16,11 @@ class UserTests {
 
         assertEquals(user.getEmail(), "tester@example.com");
         assertEquals(user.getName(), "tester");
-        assertEquals(user.isAdmin(), true);
+        assertTrue(user.isAdmin());
+        assertTrue(user.isActive());
+
+        user.deactivate();
+
+        assertFalse(user.isActive());
     }
 }

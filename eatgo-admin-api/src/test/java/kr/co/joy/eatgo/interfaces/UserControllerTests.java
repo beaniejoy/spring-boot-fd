@@ -71,7 +71,7 @@ class UserControllerTests {
     public void update() throws Exception {
         mvc.perform(patch("/users/1004")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1004,\"email\":\"admin@example.com\","+
+                .content("{\"id\":1004,\"email\":\"admin@example.com\"," +
                         "\"name\":\"Administrator\",\"level\":100}")
         )
                 .andExpect(status().isOk());
@@ -90,5 +90,13 @@ class UserControllerTests {
         given(userService.updateUser(id, email, name, level)).willReturn(user);
 
         verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
+    }
+
+    @Test
+    public void deactivate() throws Exception {
+        mvc.perform(delete("/users/1004"))
+                .andExpect(status().isOk());
+
+        verify(userService).deactivateUser(1004L);
     }
 }
