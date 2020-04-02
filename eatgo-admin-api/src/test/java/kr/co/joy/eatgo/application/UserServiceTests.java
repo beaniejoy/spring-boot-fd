@@ -9,9 +9,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class UserServiceTests {
 
@@ -43,5 +47,41 @@ class UserServiceTests {
         List<User> users = userService.getUsers();
         User user = users.get(0);
         assertEquals(user.getName(), "tester");
+    }
+
+    @Test
+    public void addUser() {
+        String email = "admin@example.com";
+        String name = "Administrator";
+        User mockUser = User.builder().email(email).name(name).build();
+
+        given(userRepository.save(any())).willReturn(mockUser);
+
+        User user = userService.addUser(email, name);
+
+        assertEquals(user.getName(), "Administrator");
+    }
+
+    @Test
+    public void updateUser() {
+        Long id = 1004L;
+        String email = "admin@example.com";
+        String name = "Superman";
+        Long level = 100L;
+
+        User mockUser = User.builder()
+                .id(id)
+                .email(email)
+                .name("Administrator")
+                .level(1L)
+                .build();
+
+        given(userRepository.findById(id)).willReturn(Optional.of(mockUser));
+        User user = userService.updateUser(id, email, name, level);
+
+        verify(userRepository).findById(eq(id));
+
+        assertEquals(user.getName(), "Superman");
+        assertTrue(user.isAdmin());
     }
 }
