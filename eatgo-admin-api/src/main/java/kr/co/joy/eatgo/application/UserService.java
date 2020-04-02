@@ -24,6 +24,7 @@ public class UserService {
         User user = User.builder()
                 .email(email)
                 .name(name)
+                .level(1L)
                 .build();
 
         return userRepository.save(user);

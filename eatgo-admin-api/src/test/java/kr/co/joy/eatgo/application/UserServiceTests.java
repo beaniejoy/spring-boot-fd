@@ -53,6 +53,7 @@ class UserServiceTests {
     public void addUser() {
         String email = "admin@example.com";
         String name = "Administrator";
+        Long level = 100L;
         User mockUser = User.builder().email(email).name(name).build();
 
         given(userRepository.save(any())).willReturn(mockUser);

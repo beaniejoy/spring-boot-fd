@@ -56,6 +56,7 @@ class UserControllerTests {
         String email = "admin@example.com";
         String name = "Administrator";
         User user = User.builder().email(email).name(name).build();
+
         given(userService.addUser(email, name)).willReturn(user);
 
         mvc.perform(post("/users")
