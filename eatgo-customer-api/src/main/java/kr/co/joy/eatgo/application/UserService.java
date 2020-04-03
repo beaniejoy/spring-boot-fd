@@ -1,10 +1,7 @@
 package kr.co.joy.eatgo.application;
 
-import kr.co.joy.eatgo.domain.User;
-import kr.co.joy.eatgo.domain.UserEmailExistedException;
-import kr.co.joy.eatgo.domain.UserRepository;
+import kr.co.joy.eatgo.domain.*;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,16 +15,17 @@ public class UserService {
 
     private UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     public User registerUser(String email, String name, String password) {
 
         //email 존재 여부 확인 -> Exception Throw
         Optional<User> existed = userRepository.findByEmail(email);
-        if(existed.isPresent()){
-            throw new UserEmailExistedException(email);
+        if (existed.isPresent()) {
+            throw new EmailExistedException(email);
         }
 
         // 패스워드 해시 인코딩 작업
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
 
         // 기본 레벨을 설정해주어야 한다.
@@ -39,5 +37,17 @@ public class UserService {
                 .build();
 
         return userRepository.save(user);
+    }
+
+    public User authenticate(String email, String password) {
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new EmailNotExistedException(email));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new PasswordWrongException();
+        }
+
+        return user;
     }
 }

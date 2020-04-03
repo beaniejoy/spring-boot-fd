@@ -1,5 +1,6 @@
 package kr.co.joy.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ public class User {
     @NotNull
     private Long level;
 
+    @NotEmpty
     private String password;
 
     public boolean isAdmin() {
@@ -42,4 +44,5 @@ public class User {
     public void deactivate() {
         level = 0L;
     }
+
 }

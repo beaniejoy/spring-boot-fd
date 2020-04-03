@@ -1,15 +1,16 @@
 package kr.co.joy.eatgo.application;
 
 import kr.co.joy.eatgo.domain.User;
-import kr.co.joy.eatgo.domain.UserEmailExistedException;
 import kr.co.joy.eatgo.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -23,11 +24,14 @@ class UserServiceTests {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, passwordEncoder);
     }
 
     @Test
@@ -40,7 +44,7 @@ class UserServiceTests {
 
         verify(userRepository).save(any());
     }
-
+    // 신규 등록: 이메일이 이미 존재하는 경우
     @Test
     public void registerUserWithExistedEmail() {
 
@@ -51,10 +55,53 @@ class UserServiceTests {
         User user = User.builder().build();
         given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
 
-        Exception exception = assertThrows(UserEmailExistedException.class, () -> {
+        assertThrows(EmailExistedException.class, () -> {
             userService.registerUser(email, name, password);
         });
 
         verify(userRepository, never()).save(any());
+    }
+    // 인증: 올바른 경우
+    @Test
+    public void authenticateWithValidAttributes() {
+        String email = "tester@example.com";
+        String password = "test";
+
+        User mockUser = User.builder()
+                .email(email)
+                .build();
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
+        given(passwordEncoder.matches(any(), any())).willReturn(true);
+
+        User user = userService.authenticate(email, password);
+
+        assertEquals(user.getEmail(), email);
+    }
+    // 인증: 이메일이 존재하지 않는 경우
+    @Test
+    public void authenticateWithNotExistedEmail() {
+        String email = "x@example.com";
+        String password = "test";
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.empty());
+
+        assertThrows(EmailNotExistedException.class, () -> {
+            userService.authenticate(email, password);
+        });
+    }
+    // 인증: 패스워드가 틀린 경우
+    @Test
+    public void authenticateWithWrongPassword() {
+        String email = "tester@example.com";
+        String password = "x";
+
+        User mockUser = User.builder().email(email).build();
+        given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
+        given(passwordEncoder.matches(any(), any())).willReturn(false);
+
+        assertThrows(PasswordWrongException.class, () -> {
+            userService.authenticate(email, password);
+        });
     }
 }

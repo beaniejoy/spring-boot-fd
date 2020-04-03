@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTests {
 
     @Test
-    public void creation(){
+    public void creation() {
         User user = User.builder()
                 .email("tester@example.com")
                 .name("tester")
@@ -23,4 +23,5 @@ class UserTests {
 
         assertFalse(user.isActive());
     }
+
 }
