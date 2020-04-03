@@ -1,6 +1,5 @@
 package kr.co.joy.eatgo.application;
 
-import kr.co.joy.eatgo.domain.RestaurantNotFoundException;
 import kr.co.joy.eatgo.domain.User;
 import kr.co.joy.eatgo.domain.UserEmailExistedException;
 import kr.co.joy.eatgo.domain.UserRepository;
