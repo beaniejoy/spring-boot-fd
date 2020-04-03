@@ -7,6 +7,7 @@ import kr.co.joy.eatgo.domain.User;
 import kr.co.joy.eatgo.utils.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -29,18 +30,22 @@ class SessionControllerTests {
     MockMvc mvc;
 
     @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
     private UserService userService;
     // 올바른 경우
     @Test
     public void createWithValidAttributes() throws Exception {
         Long id = 1004L;
         String name = "Tester";
-
         String email = "tester@example.com";
         String password = "test";
 
         User mockUser = User.builder().id(id).name(name).build();
         given(userService.authenticate(email, password)).willReturn(mockUser);
+
+        given(jwtUtil.createToken(id, name)).willReturn("header.payload.signature");
 
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -48,8 +53,9 @@ class SessionControllerTests {
         )
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", "/session"))
-                .andExpect(content().string(containsString("{\"accessToken\":\"")))
-                .andExpect(content().string(containsString(".")));
+                .andExpect(content().string(
+                        containsString("{\"accessToken\":\"header.payload.signature\"}")
+                ));
 
 
         verify(userService).authenticate(eq(email), eq(password));
