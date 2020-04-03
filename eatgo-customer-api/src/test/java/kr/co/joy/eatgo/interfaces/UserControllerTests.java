@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -33,6 +32,7 @@ class UserControllerTests {
     public void create() throws Exception {
 
         User mockUser = User.builder()
+                .id(1004L)
                 .email("tester@example.com")
                 .name("Tester")
                 .password("test")
