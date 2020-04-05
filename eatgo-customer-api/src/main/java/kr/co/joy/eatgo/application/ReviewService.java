@@ -13,8 +13,15 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public Review addReview(Long restaurantId, Review review) {
-        review.setRestaurantId(restaurantId);
+    public Review addReview(Long restaurantId,
+                            String name, int score, String description) {
+        Review review = Review.builder()
+                .restaurantId(restaurantId)
+                .name(name)
+                .score(score)
+                .description(description)
+                .build();
+
         return reviewRepository.save(review);
     }
 }
