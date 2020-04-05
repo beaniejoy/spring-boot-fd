@@ -16,6 +16,7 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    // token을 생성하는 부분
     public String createToken(Long userId, String name) {
         return Jwts.builder()
                 .claim("userId", userId)
@@ -24,6 +25,7 @@ public class JwtUtil {
                 .compact();
     }
 
+    // token에서 claims를 빼오는 부분
     public Claims getClaims(String token) {
         // parser()에서 바뀐듯
         return Jwts.parserBuilder()

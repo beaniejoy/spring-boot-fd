@@ -1,13 +1,12 @@
 package kr.co.joy.eatgo.interfaces;
 
 import kr.co.joy.eatgo.application.EmailNotExistedException;
-import kr.co.joy.eatgo.application.UserService;
 import kr.co.joy.eatgo.application.PasswordWrongException;
+import kr.co.joy.eatgo.application.UserService;
 import kr.co.joy.eatgo.domain.User;
 import kr.co.joy.eatgo.utils.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
