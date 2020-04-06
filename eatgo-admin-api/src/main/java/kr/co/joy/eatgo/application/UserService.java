@@ -1,7 +1,6 @@
 package kr.co.joy.eatgo.application;
 
 import kr.co.joy.eatgo.domain.User;
-import kr.co.joy.eatgo.domain.UserNotFoundException;
 import kr.co.joy.eatgo.domain.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

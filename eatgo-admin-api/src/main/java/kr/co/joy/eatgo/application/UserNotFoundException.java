@@ -1,4 +1,4 @@
-package kr.co.joy.eatgo.domain;
+package kr.co.joy.eatgo.application;
 
 public class UserNotFoundException extends RuntimeException {
 

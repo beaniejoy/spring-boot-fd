@@ -1,7 +1,6 @@
 package kr.co.joy.eatgo.interfaces;
 
-import kr.co.joy.eatgo.domain.RestaurantNotFoundException;
-import kr.co.joy.eatgo.domain.UserNotFoundException;
+import kr.co.joy.eatgo.application.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
