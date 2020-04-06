@@ -26,6 +26,7 @@ class JwtUtilTests {
 
     @Test
     public void getClaims() {
+        // userId: 1004, name: Joy, restaurantId: null
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJKb3kifQ.lrdyXLeKqaMYQm64UpyuKlHG3GPb4Nt5gXcrCQJMn5M";
         Claims claims = jwtUtil.getClaims(token);
 
