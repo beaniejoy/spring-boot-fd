@@ -1,11 +1,13 @@
 package kr.co.joy.eatgo.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
+
 // 여기서 Security Token을 관리
 public class JwtUtil {
 
@@ -17,10 +19,16 @@ public class JwtUtil {
     }
 
     // token을 생성하는 부분
-    public String createToken(Long userId, String name) {
-        return Jwts.builder()
+    public String createToken(Long userId, String name, Long restaurantId) {
+        JwtBuilder builder = Jwts.builder()
                 .claim("userId", userId)
-                .claim("name", name)
+                .claim("name", name);
+
+        if (restaurantId != null) {
+            builder = builder.claim("restaurantId", restaurantId);
+        }
+
+        return builder
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
